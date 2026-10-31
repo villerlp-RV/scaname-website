@@ -12,3 +12,9 @@ no build step. Every change merged to `main` is live in about a minute.
   (`src/pages/PrivacyPolicy.jsx`, `TermsOfService.jsx`). Keep them in step.
 - Screenshots use fictional people and companies only. Never put a real
   person's card on the public site.
+
+## Updating the stylesheet or script
+`site.css` and `site.js` are linked with a version (`?v=<hash>`) so browsers
+fetch the new file as soon as it changes (GitHub Pages lets browsers cache
+files for 10 minutes). After editing either one, update the version in every
+`.html` file, e.g. with the first 8 characters of `sha1sum assets/site.css`.
