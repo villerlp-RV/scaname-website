@@ -226,3 +226,36 @@ section.alt { background: var(--paper-2); }
 .site-footer nav a { color: var(--ink-soft); text-decoration: none; }
 .site-footer nav a:hover { color: var(--rust); }
 .site-footer .legal { width: 100%; font-size: 13px; }
+
+/* --- Getting to the app --------------------------------------------- */
+.phone video { display: block; border-radius: 30px; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; background: var(--ink); }
+
+/* Desktop: a QR code to send people to their phone. */
+.qr-get { display: none; align-items: center; gap: 12px; max-width: 280px; }
+.qr-get img { width: 84px; height: 84px; padding: 6px; background: #fff; border-radius: 10px; border: 1px solid var(--line); }
+.qr-get span { font-size: 14px; color: var(--ink-soft); line-height: 1.35; }
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) { .qr-get { display: flex; } }
+
+/* iPhone visitors. */
+.ios-note { margin-top: 14px; font-size: 15px; color: var(--ink-soft); }
+.ios-note[hidden] { display: none; }
+.cta-band .ios-note { margin-top: 16px; }
+
+.pricing-cta { text-align: center; margin: 28px 0 0; }
+
+/* Android phones: a slim bar once the top badge has scrolled away. */
+.get-bar {
+  position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 50;
+  display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(28, 25, 22, 0.18);
+}
+.get-bar[hidden] { display: none; }
+.get-bar img { border-radius: 9px; flex-shrink: 0; }
+.get-bar span { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; flex: 1; }
+.get-bar small { color: var(--ink-soft); font-size: 13px; }
+.get-bar-btn {
+  background: var(--rust); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px;
+  padding: 9px 18px; border-radius: 999px; flex-shrink: 0;
+}
+.get-bar-close { background: none; border: 0; color: var(--ink-soft); font-size: 24px; line-height: 1; padding: 4px 6px; cursor: pointer; }
