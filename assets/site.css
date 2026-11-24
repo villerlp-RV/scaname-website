@@ -235,6 +235,8 @@ section.alt { background: var(--paper-2); }
 .site-footer nav a { color: var(--ink-soft); text-decoration: none; }
 .site-footer nav a:hover { color: var(--rust); }
 .site-footer .legal { width: 100%; font-size: 13px; }
+.site-footer .maker { width: 100%; display: flex; align-items: center; gap: 12px; margin: 4px 0 -8px; font-size: 13px; }
+.site-footer .maker img { display: block; height: 36px; width: auto; }
 
 /* --- Getting to the app --------------------------------------------- */
 .phone video { display: block; border-radius: 30px; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; background: var(--ink); }
