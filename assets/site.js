@@ -56,3 +56,39 @@
     update();
   });
 })();
+
+// Email list form (#bonus): joinEmailList on the Scaname backend. Sent as
+// text/plain so the browser doesn't need a CORS preflight.
+(function () {
+  var form = document.getElementById("join-form");
+  if (!form) return;
+  var FN = "https://scaname.base44.app/api/apps/6a77508bc9065e174b34ba67/functions/joinEmailList";
+  var msg = document.getElementById("join-msg");
+  var btn = form.querySelector("button");
+  var say = function (text, ok) { msg.textContent = text; msg.className = "join-msg " + (ok ? "ok" : "err"); };
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var email = (document.getElementById("join-email").value || "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say("Please enter a valid email address.", false);
+    if (!document.getElementById("join-consent").checked) return say("Please tick the box so we can email you.", false);
+    var q = new URLSearchParams(location.search);
+    var utm = ["utm_source", "utm_medium", "utm_campaign"].map(function (k) { return q.get(k) || ""; }).join("/");
+    btn.disabled = true;
+    fetch(FN, { method: "POST", headers: { "content-type": "text/plain" }, body: JSON.stringify({
+      email: email, consent: true, consent_text: document.getElementById("join-consent-text").textContent,
+      utm: utm === "//" ? "" : utm, company: form.elements.company.value
+    }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.j.ok) throw new Error(res.j && res.j.error);
+        say("You're in! Check your inbox, then sign up in the app with this email to get your 10 bonus scans.", true);
+        form.querySelector(".join-row").hidden = true;
+        form.querySelector(".join-consent").hidden = true;
+        try { if (window.ttq) window.ttq.track("SubmitForm", { content_name: "Email list" }); } catch (e) {}
+      })
+      .catch(function (e) {
+        btn.disabled = false;
+        say(e && e.message === "busy" ? "Lots of sign-ups right now. Please try again in a few minutes." : "Something went wrong. Please try again.", false);
+      });
+  });
+})();
