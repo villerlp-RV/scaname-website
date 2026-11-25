@@ -3,6 +3,7 @@
 // - Android phones: a "Get Scaname" bar once the top badge scrolls away,
 //   hidden again at the closing call to action; it can be closed.
 // - Reduced motion: the demo video doesn't autoplay.
+// - Home page: Google Play taps are reported to the TikTok Pixel.
 (function () {
   var ua = navigator.userAgent || "";
   var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
@@ -17,6 +18,19 @@
     video.removeAttribute("autoplay");
     video.pause();
     video.controls = true;
+  }
+
+  // TikTok Pixel (home page only): count taps on any Google Play link as a
+  // ClickButton event. Does nothing on pages without the pixel.
+  if (window.ttq) {
+    document.querySelectorAll('a[href*="play.google.com/store/apps"]').forEach(function (a) {
+      a.addEventListener("click", function () {
+        try {
+          var m = /utm_campaign%3D([a-z_]+)/.exec(a.getAttribute("href") || "");
+          window.ttq.track("ClickButton", { content_name: "Get it on Google Play", content_id: m ? m[1] : "play" });
+        } catch (e) {}
+      });
+    });
   }
 
   var bar = document.querySelector(".get-bar");
