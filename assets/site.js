@@ -24,11 +24,17 @@
   // ClickButton event. Does nothing on pages without the pixel.
   if (window.ttq) {
     document.querySelectorAll('a[href*="play.google.com/store/apps"]').forEach(function (a) {
-      a.addEventListener("click", function () {
+      a.addEventListener("click", function (ev) {
+        var href = a.getAttribute("href") || "";
         try {
-          var m = /utm_campaign%3D([a-z_]+)/.exec(a.getAttribute("href") || "");
+          var m = /utm_campaign%3D([a-z_]+)/.exec(href);
           window.ttq.track("ClickButton", { content_name: "Get it on Google Play", content_id: m ? m[1] : "play" });
         } catch (e) {}
+        // Google Play opens at once on Android, which can cut the event off.
+        // For a plain tap, wait a moment so it can be sent, then go.
+        if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || a.target === "_blank") return;
+        ev.preventDefault();
+        setTimeout(function () { window.location.href = href; }, 300);
       });
     });
   }
