@@ -81,7 +81,7 @@
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) {
         if (!res.ok || !res.j.ok) throw new Error(res.j && res.j.error);
-        say("Saved! Your 10 bonus scans are waiting. Whenever you're ready, sign up in the app with this email and they're added automatically.", true);
+        say("You're on the list! Your 10 bonus scans are waiting: sign up in the app with this email and they're added automatically.", true);
         form.querySelector(".join-row").hidden = true;
         form.querySelector(".join-consent").hidden = true;
         try { if (window.ttq) window.ttq.track("SubmitForm", { content_name: "Email list" }); } catch (e) {}
