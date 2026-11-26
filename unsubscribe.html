@@ -45,7 +45,7 @@
   var t = new URLSearchParams(location.search).get("t") || "";
   if (!/^[0-9a-f]{32}$/.test(t)) { m.textContent = "This unsubscribe link isn't valid. Email privacy@scaname.com and we'll remove you."; return; }
   fetch("https://scaname.base44.app/api/apps/6a77508bc9065e174b34ba67/functions/emailUnsubscribe", { method: "POST", headers: { "content-type": "text/plain" }, body: JSON.stringify({ token: t }) })
-    .then(function (r) { if (!r.ok) throw 0; m.textContent = "You're unsubscribed. You won't get any more emails from Scaname's list. Any bonus scans you already have stay yours."; })
+    .then(function (r) { if (!r.ok) throw 0; m.textContent = "You're unsubscribed. You won't get any more tips or offers from Scaname by email (receipts and account emails still arrive). Any bonus scans you already have stay yours."; })
     .catch(function () { m.textContent = "Something went wrong. Email privacy@scaname.com and we'll remove you right away."; });
 })();
 </script>
